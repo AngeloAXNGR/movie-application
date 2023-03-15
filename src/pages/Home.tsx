@@ -1,10 +1,13 @@
 import {useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MovieCardProps } from '../types/movies';
 import MovieCard from '../components/MovieCard';
 const apiKey:string = import.meta.env.VITE_API_KEY
 
 
 const Home = () => {
+
+  const navigate = useNavigate();
 
   const useMovies = (category:string) => {
     const [movies, setMovies] = useState<MovieCardProps[]>([])
@@ -57,6 +60,10 @@ const Home = () => {
       />
     )
   })
+
+  const navigateTo = (category:string) => {
+    navigate(`/movies/${category}`)
+  }
   
   return (
     <div className="h-[100%] w-[100%] text-white min-h-[100vh] flex flex-col items-center bg-[#181b22]">
@@ -66,6 +73,7 @@ const Home = () => {
           <div className="gallery-grid">
             {popularMovies}
           </div>
+          <button className="gallery-button" onClick={() => navigateTo("popular")}>Show More</button>
         </div>
       </div> 
 
@@ -75,6 +83,7 @@ const Home = () => {
           <div className="gallery-grid">
             {topRatedMovies}
           </div>
+          <button className="gallery-button" onClick={() => navigateTo("top_rated")}>Show More</button>
         </div>
       </div> 
 
@@ -84,6 +93,7 @@ const Home = () => {
           <div className="gallery-grid">
             {currentlyAiring}
           </div>
+          <button className="gallery-button" onClick={() => navigateTo("now_playing")}>Show More</button>
         </div>
       </div> 
     </div>
