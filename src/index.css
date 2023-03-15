@@ -20,3 +20,20 @@ body{
   margin:0;
   padding:0;
 }
+
+
+.movie-section{
+  @apply w-[100%] py-8;
+}
+
+.movie-gallery{
+  @apply w-[90%] mx-auto;
+}
+
+.gallery-heading{
+  @apply font-bold text-4xl mb-8;
+}
+
+.gallery-grid{
+  @apply grid gap-3 grid-cols-1 sm:grid-cols-5;
+}
