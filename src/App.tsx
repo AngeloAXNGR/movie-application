@@ -4,6 +4,7 @@ import Header from "./components/Header"
 import Footer from "./components/Footer"
 import Home from "./pages/Home"
 import Movies from "./pages/Movies"
+import Search from "./pages/Search"
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/movies/:category" element={<Movies/>}/>
+        <Route path="/movies/search" element={<Search/>}/>
       </Routes>
       <Footer/>
     </RootLayout>
