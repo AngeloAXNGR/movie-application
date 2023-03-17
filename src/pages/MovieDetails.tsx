@@ -31,10 +31,14 @@ const MovieDetails = () => {
     // Add a Try Catch Block Here
     // If fetch fails, setVideoURL("")
     // If VideoURL === "", disable [ > Play Trailer] Button
-    const data = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}&language=en-US`)
-    const result = await data.json();
-    const trailerURL = getTrailers(result);
-    setVideoURL(`https://www.youtube.com/watch?v=${trailerURL}`)
+    try{
+      const data = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}&language=en-US`)
+      const result = await data.json();
+      const trailerURL = getTrailers(result);
+      setVideoURL(`https://www.youtube.com/watch?v=${trailerURL}`)
+    }catch(e){
+      setVideoURL("");
+    }
   }
 
   const getTrailers = (videos:any) => {
@@ -65,10 +69,10 @@ const MovieDetails = () => {
               <h1 className="text-2xl font-bold">Overview</h1>
               <p>{movieDetails?.overview}</p>
             </div>
-            <div className="flex items-center gap-2 cursor-pointer hover:text-gray-400 duration-300" onClick={() => togglePlayer()}>
+            {videoURL!== "" && <div className="flex items-center gap-2 cursor-pointer hover:text-gray-400 duration-300" onClick={() => togglePlayer()}>
               <AiFillPlayCircle size={30}/>
               <p>Play Trailer</p>
-            </div>
+            </div>}
           </div>
         </div>
 
@@ -78,10 +82,10 @@ const MovieDetails = () => {
       <div className="block sm:hidden bg-[#181b22] text-white py-8">
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-4xl font-bold text-center">{movieDetails?.title} ({releaseYear})</h1>
-          <div className="flex items-center gap-2 cursor-pointer hover:text-gray-400 duration-300" onClick={() => togglePlayer()}>
+          {videoURL !== "" && <div className="flex items-center gap-2 cursor-pointer hover:text-gray-400 duration-300" onClick={() => togglePlayer()}>
             <AiFillPlayCircle size={30}/>
             <p>Play Trailer</p>
-          </div>
+          </div>}
           <div className='self-start w-[100%] bg-[#12141a] py-2 px-8 border-y-[1px] border-gray-700'>
             <h1 className="text-gray-300">{movieDetails?.tagline}</h1>
             <div>
