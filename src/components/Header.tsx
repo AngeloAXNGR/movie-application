@@ -18,8 +18,8 @@ const Header = () => {
 
 
   return (
-    <div className="bg-[#242424] text-center text-white w-[100%] p-8 flex items-center">
-      <h1 className="font-bold text-4xl mr-auto" onClick={() => navigate("/")}>Movie Application</h1>
+    <div className="bg-[#242424] w-[100%] text-white flex flex-col items-center gap-4 p-8 sm:flex-row sm:justify-between" >
+      <h1 className="font-bold text-4xl" onClick={() => navigate("/")}>Movie Application</h1>
       {!toggleForm 
         ? 
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => setToggleForm(true)}>
