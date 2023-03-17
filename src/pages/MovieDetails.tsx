@@ -1,20 +1,22 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import { MovieDetailsObject } from '../types/movies';
-import { AiFillPlayCircle } from 'react-icons/ai';
+import { AiFillPlayCircle, AiFillCloseCircle } from 'react-icons/ai';
+import Video from '../components/Video';
 const apiKey:string = import.meta.env.VITE_API_KEY
 
 const MovieDetails = () => {
   const {movieId} = useParams();
   const [movieDetails, setMovieDetails] = useState<MovieDetailsObject>();
   const [releaseYear, setReleaseYear] = useState("");
-
+  const [videoURL, setVideoURL] = useState('');
+  const [showPlayer, setShowPlayer] = useState(false);
   const backdropPath = `https://image.tmdb.org/t/p/original/${movieDetails?.backdrop_path}`
   const posterPath = `https://image.tmdb.org/t/p/original/${movieDetails?.poster_path}`
 
-
   useEffect(() => {
     fetchDetails();
+    fetchVideoURL();
   },[])
 
   const fetchDetails = async() => {
@@ -24,7 +26,28 @@ const MovieDetails = () => {
     setReleaseYear(result!.release_date.split("-")[0]);
   }
 
-  console.log(movieDetails);
+  const fetchVideoURL = async () => {
+    // Tasks:
+    // Add a Try Catch Block Here
+    // If fetch fails, setVideoURL("")
+    // If VideoURL === "", disable [ > Play Trailer] Button
+    const data = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}&language=en-US`)
+    const result = await data.json();
+    const trailerURL = getTrailers(result);
+    setVideoURL(`https://www.youtube.com/watch?v=${trailerURL}`)
+  }
+
+  const getTrailers = (videos:any) => {
+    const trailer = videos.results.filter(function(e:any){
+      return e.type === "Trailer"
+    })
+    return trailer[0].key;
+  }
+
+  const togglePlayer = () => {
+    setShowPlayer(prevShow => {return !prevShow})
+  }
+
   return (
     <div className="w-[100%]">
       <div
@@ -42,18 +65,20 @@ const MovieDetails = () => {
               <h1 className="text-2xl font-bold">Overview</h1>
               <p>{movieDetails?.overview}</p>
             </div>
-            <div className="flex items-center gap-2 cursor-pointer hover:text-gray-400 duration-300">
+            <div className="flex items-center gap-2 cursor-pointer hover:text-gray-400 duration-300" onClick={() => togglePlayer()}>
               <AiFillPlayCircle size={30}/>
               <p>Play Trailer</p>
             </div>
           </div>
         </div>
+
+        {showPlayer && <Video videoURL={videoURL} togglePlayer={togglePlayer}/>}
       </div>
 
       <div className="block sm:hidden bg-[#181b22] text-white py-8">
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-4xl font-bold text-center">{movieDetails?.title} ({releaseYear})</h1>
-          <div className="flex items-center gap-2 cursor-pointer hover:text-gray-400 duration-300">
+          <div className="flex items-center gap-2 cursor-pointer hover:text-gray-400 duration-300" onClick={() => togglePlayer()}>
             <AiFillPlayCircle size={30}/>
             <p>Play Trailer</p>
           </div>
