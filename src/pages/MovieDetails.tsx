@@ -14,6 +14,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     fetchDetails();
+    fetchCredits();
   },[])
 
   const fetchDetails = async() => {
@@ -23,8 +24,18 @@ const MovieDetails = () => {
     setReleaseYear(result!.release_date.split("-")[0]);
   }
 
+  const fetchCredits = async() =>{
+    const data = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}&language=en-US`)
+    const result = await data.json();
+    console.log(result);
+  }
+
+
   return (
     <div className="w-[100%]">
+     {movieDetails === undefined ? 
+     <div></div>
+     :
      <Overview
       id={movieDetails!.id}
       title={movieDetails!.title}
@@ -34,7 +45,7 @@ const MovieDetails = () => {
       backdropPath={backdropPath}
       posterPath={posterPath}
       overview={movieDetails!.overview}
-     />
+     />}
     </div>
   )
 }
