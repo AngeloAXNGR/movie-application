@@ -17,3 +17,15 @@ export type MovieDetailsObject = {
   tagline:string,
   genre: string[]
 }
+
+
+export type OverviewProps = {
+  id:string
+  title:string,
+  releaseYear: string,
+  releaseDate:string,
+  tagline:string,
+  backdropPath: string,
+  posterPath: string,
+  overview: string,
+}
