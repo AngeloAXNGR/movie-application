@@ -5,7 +5,11 @@ export type MovieCardProps = {
   poster_path: string,
 }
 
-
+export type MovieCasts = {
+  name:string,
+  character:string,
+  profile_path:string,
+}
 
 export type MovieDetailsObject = {
   id: string,
