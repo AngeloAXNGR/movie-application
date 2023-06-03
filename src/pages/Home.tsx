@@ -30,7 +30,7 @@ const Home = () => {
       <MovieCard
         key={movie.id}
         id={movie.id}
-        title={movie.title}
+        title={movie.title} 
         release_date={movie.release_date}
         poster_path={movie.poster_path}
       />
@@ -89,7 +89,7 @@ const Home = () => {
 
       <div className="movie-section">
         <div className="movie-gallery">
-          <h1 className="gallery-heading">Popular</h1>
+          <h1 className="gallery-heading">Now Playing</h1>
           <div className="gallery-grid">
             {currentlyAiring}
           </div>
